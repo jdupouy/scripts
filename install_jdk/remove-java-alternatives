@@ -1,0 +1,5 @@
+#!/bin/bash
+for f in /opt/jdk1.6.0_32/bin/*; do
+        name=`basename $f`;
+        sudo update-alternatives --remove $name /opt/jdk1.6.0_32/bin/$name
+done
