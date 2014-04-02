@@ -1,0 +1,36 @@
+#!/bin/bash
+
+if [ "$#" -ne 2 ]; then
+  echo "Usage: $0 JVM_DIRECTORY JNAME"
+  exit 1
+fi
+if ! [ -e "$1" ]; then
+  echo "$1 not found"
+  exit 1
+fi
+if ! [ -d "$1" ]; then
+  echo "$1 not a directory"
+  exit 1
+fi
+if ! [ -d "$1/bin" ]; then
+  echo "$1 is not a correct JVM directory"
+  exit 1
+fi
+
+output=.${2}.jinfo
+
+echo "name=$2" > $output
+echo "alias=$2" >> $output
+echo "priority=30" >> $output
+echo "" >> $output
+
+priority=30
+
+for f in $1/bin/*; do
+	if [ -x $f ]; then
+        	name=`basename $f`;
+		echo "jdk $name ${1%/}/bin/$name" >> $output
+	fi
+done
+
+echo "jinfo file has successfully been written: $output"
